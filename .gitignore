@@ -20,3 +20,13 @@ yarn-error.log*
 Thumbs.db
 .vscode/
 *.swp
+
+# React build output
+frontend/build/
+
+# Dependencies
+backend/node_modules/
+frontend/node_modules/
+
+# Environment variables
+backend/.env
