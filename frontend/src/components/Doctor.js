@@ -4,6 +4,7 @@ import DoctorCard from './DoctorCard';
 import './Doctors.css';
 
 const Doctors = () => {
+  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
   const [doctors, setDoctors] = useState([]);
   const [newDoctor, setNewDoctor] = useState({
     name: '',
@@ -14,7 +15,7 @@ const Doctors = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/doctors')
+      .get(`${API_BASE_URL}/doctors`)
       .then((response) => setDoctors(response.data))
       .catch((error) => console.error('Error fetching doctors:', error));
   }, []);
@@ -23,7 +24,7 @@ const Doctors = () => {
     e.preventDefault();
 
     axios
-      .post('http://localhost:5000/doctors/add', newDoctor)
+      .post(`${API_BASE_URL}/doctors/add`, newDoctor)
       .then((response) => {
         setDoctors([...doctors, response.data]);
         setNewDoctor({ name: '', specialty: '' });
@@ -35,7 +36,7 @@ const Doctors = () => {
     e.preventDefault();
 
     axios
-      .post(`http://localhost:5000/doctors/update/${id}`, selectedDoctor)
+      .post(`${API_BASE_URL}/doctors/update/${id}`, selectedDoctor)
       .then(() => {
         const updateDoc = { ...selectedDoctor, _id: id };
         setDoctors(doctors.map((doctor) => (doctor._id === id ? updateDoc : doctor)));
@@ -47,7 +48,7 @@ const Doctors = () => {
 
   const handleDeleteDoctor = (id) => {
     axios
-      .delete(`http://localhost:5000/doctors/delete/${id}`)
+      .delete(`${API_BASE_URL}/doctors/delete/${id}`)
       .then(() => {
         setDoctors(doctors.filter((doctor) => doctor._id !== id));
       })

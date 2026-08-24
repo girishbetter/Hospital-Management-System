@@ -26,6 +26,14 @@ mongoose
     console.error("MongoDB connection error:", err);
   });
 
+// Root route for health checks / Render
+app.get("/", (req, res) => {
+  res.json({
+    message: "Hospital Management API is running",
+    endpoints: ["/patients", "/doctors", "/appointments"]
+  });
+});
+
 // Routes
 app.use("/patients", patientsRouter);
 app.use("/doctors", doctorsRouter);

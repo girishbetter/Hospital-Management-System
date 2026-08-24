@@ -4,6 +4,7 @@ import AppointmentCard from './AppointmentCard';
 import './Appointments.css';
 
 const Appointments = () => {
+  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
   const [appointments, setAppointments] = useState([]);
   const [newAppointment, setNewAppointment] = useState({
     patientName: '',
@@ -15,7 +16,7 @@ const Appointments = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/appointments')
+      .get(`${API_BASE_URL}/appointments`)
       .then((response) => setAppointments(response.data))
       .catch((error) => console.error('Error fetching appointments:', error));
   }, []);
@@ -24,7 +25,7 @@ const Appointments = () => {
     e.preventDefault();
 
     axios
-      .post('http://localhost:5000/appointments/add', newAppointment)
+      .post(`${API_BASE_URL}/appointments/add`, newAppointment)
       .then((response) => {
         setAppointments([...appointments, response.data]);
         setNewAppointment({ patientName: '', doctorName: '', date: '' });
@@ -36,7 +37,7 @@ const Appointments = () => {
     e.preventDefault();
 
     axios
-      .post(`http://localhost:5000/appointments/update/${id}`, selectedAppointment)
+      .post(`${API_BASE_URL}/appointments/update/${id}`, selectedAppointment)
       .then(() => {
         const updateApp = { ...selectedAppointment, _id: id };
         setAppointments(
@@ -52,7 +53,7 @@ const Appointments = () => {
 
   const handleDeleteAppointment = (id) => {
     axios
-      .delete(`http://localhost:5000/appointments/delete/${id}`)
+      .delete(`${API_BASE_URL}/appointments/delete/${id}`)
       .then(() => {
         setAppointments(appointments.filter((appointment) => appointment._id !== id));
       })
